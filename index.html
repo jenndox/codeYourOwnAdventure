@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+ <html>
+    <head>
+       <title>Code your own Adventure</title>
+       <style type="text/css">
+         body {
+             font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+             font-weight: 300;
+             font-size: larger;
+             min-width: 650px;
+             min-height: 400px;
+         }
+       
+         .variableName
+         {
+             display:inline-block;
+             color:#007700;
+             margin: 2px;
+             font-size: larger;
+         }
+         
+         .indentOnce
+         {
+             margin-left: 40px;
+         }
+         
+         .indentTwice
+         {
+             margin-left:80px;
+         }
+         
+         .newSegment
+         {
+             margin-top:40px;
+         }
+         
+         #bookCreator
+         {
+             margin:40px;
+         }
+         
+         .dropDownSelector
+         {
+             font-size: 1.2em;
+             font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+             font-weight: 300;
+         }
+         
+         .finalButtons
+         {
+             font-size: 1.2em;
+             font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+             font-weight: 300;
+            moz-border-radius: 15px;
+            -webkit-border-radius: 15px;
+            border: 5px solid #007700;
+            padding: 5px;
+         }
+         
+         .inlineValues
+         {
+            display:inline-block;
+         }
+       </style>
+       <script type="text/javascript" src="../jquery-1.7.min.js"></script>
+    </head>
+    <body>
+      <div id="bookCreator">
+<div>/// ----------------------------------------------------------------------------------------///</div>
+<div>/// What does coding look like when you are still learning to read?</div>
+<div>/// ----------------------------------------------------------------------------------------///</div>
+
+<div class="newSegment">private Book createStoryBook()</div>
+<div>{</div>
+    <div class="indentOnce">// Give your book a title.</div>
+    <div class="indentOnce">string bookTitle = <input class="variableName" id="bookTitle" title="title" placeholder="title"/>;</div>
+    
+    <div class="indentOnce newSegment">// What is your name?</div>
+    <div class="indentOnce">string authorName = <input class="variableName" id="authorName" title="your name" placeholder="your name"/>;</div>
+    
+    <div id="friendsSection">
+    <div class="indentOnce newSegment">// Then imagine a friend.</div>
+    </div>
+    <div class="indentOnce newSegment""><button onclick="addFriend()" class="finalButtons" id="friendAdder">Add a friend</button></div>
+
+    <div class="indentOnce newSegment">// Where do the friends live?</div>
+    <div class="indentOnce">Home friendsHome = new Home( <select name="homeForFriend" class="dropDownSelector" onchange="updateHome(this.value);">
+    <option>cave</option><option>tree</option>
+    <option>pond</option><option>cloud</option></select> );</div> 
+
+    <div class="indentOnce newSegment">// These friends all hang out together</div>
+    <div class="indentOnce">Club <input class="variableName" id="clubName" title="club" placeholder="club"/> = new Club();</div>
+    <div class="indentOnce">foreach (friend in friends) </div>
+    <div class="indentOnce">{</div>
+      <div class="indentTwice">club.add(friend);</div>
+    <div class="indentOnce">}</div>
+
+    <div class="indentOnce newSegment">// What do they want to do?</div>
+    <div class="indentOnce">Adventure <input class="variableName" id="adventureName" title="adventure" placeholder="adventure"/> = new Adventure( <select name="speciesFriend" class="dropDownSelector" onchange="updateAdventure(this.value);">
+    <option>swimming</option><option>climbing</option>
+    <option>digging</option><option>exploring</option></select> );</div>
+
+    <div class="indentOnce newSegment">// How long will it take?</div>
+    <div class="indentOnce">int howLong = <select name="numberForTime" class="dropDownSelector" onchange="updateHowLong(this.value);">
+    <option selected=>1</option><option>2</option>
+    <option>3</option><option>4</option>
+    <option>5</option><option>6</option>
+    <option>7</option><option>8</option>
+    <option>9</option><option>10</option></select>;</div>
+    <div class="indentOnce">time whatTime = <select name="periodForTime" class="dropDownSelector" onchange="updatePeriodOfTime(this.value);">
+    <option>hours</option><option>days</option>
+    <option>months</option><option>years</option></select>;</div>
+    <div class="indentOnce">adventure.time = <div id="showTimeNumber" class="inlineValues">1</div> * <div id="showTimePeriod" class="inlineValues">hour</div>;</div>
+
+    <div class="indentOnce newSegment">bool isOutside = <select name="weatherNeeded" class="dropDownSelector" onchange="updateOutside(this.value);"><option>yes</option><option>no</option></select>;</div>
+    <div class="indentOnce">if ( isOutside )</div>
+    <div class="indentOnce">{</div>
+        <div class="indentTwice">Weather forecast = Weather.random();</div>
+    <div class="indentOnce">}</div>
+    
+    <div class="indentOnce newSegment">return new Book(bookTitle, club, adventure, forecast);</div>
+    
+<div newSegment>}</div>
+<br />
+<button type="submit" name="createBook" id="createBook" class="finalButtons" onclick="saveValues();">create my book</button> <button type="reset" name="clearBook" id="clearBook" class="finalButtons" onclick="resetValues();">start all over</button>
+<br />
+      </div>
+      
+      <script type="text/javascript">
+         var friendCounter = 0;
+         var maxFriends = 10;
+         var friends = [];
+         
+         var bookTitle = "title";
+         var authorName = "The Great Adventure Writer";
+         var home = "cave";
+         var club = "club";
+         var adventureName = "adventure";
+         var adventureType = "swimming";
+         var howLong = 1;
+         var periodOfTime = "hour";
+         var isOutside = true;
+         
+         var animalOptions = new Array("cat", "dog", "bumblebee", "dolphin", "tiger", "snake", "goldfish", "rabbit", "polar bear", "blue jay");
+         
+         var weatherOptions = new Array("sunny", "cloudy", "rainy", "snowy", "breezy", "chilly");
+         var weatherIndex = Math.floor(Math.random() * weatherOptions.length); 
+         var weather = weatherOptions[weatherIndex];
+         
+      
+         jQuery(document).ready(function () {
+            addFriend();
+            configureEventHandlers();
+        });
+      
+         function addFriend()
+         {
+            var allAnimalOptions = "";
+            for (var idx = 0; idx < animalOptions.length; idx++)
+            {
+               allAnimalOptions = allAnimalOptions + "<option>" + animalOptions[idx] + "</option>";
+            }
+            
+            var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="name ' + friendCounter + '" /> = new Friend( <select name="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
+          
+            jQuery("#friendsSection").append(structureForNewFriend);
+            
+            var nameElement = document.getElementById("friendName" + friendCounter );
+            
+            if ( nameElement.addEventListener ) {
+              nameElement.addEventListener("focus", nameFocus, false);
+              nameElement.addEventListener("blur", nameBlur, false);
+            } else if ( nameElement.attachEvent ) {
+              nameElement.attachEvent("onfocus", nameFocus);
+              nameElement.attachEvent("onblur", nameBlur);
+            }
+            
+            // Add the friend to our list.
+            var friendData = new Array(2);
+            friendData[0] = "name" + friendCounter;
+            friendData[1] = animalOptions[0];
+            friends.push(friendData);
+            friendCounter++;
+            
+            if (friendCounter >= maxFriends)
+            {
+
+               jQuery("#friendAdder").hide();
+            }
+         }
+         
+         function updateFriendAnimal(friendIndex, value)
+         {
+            friends[friendIndex][1] = value;
+         }
+         
+         function updateHome(value)
+         {
+            home = value;
+         }
+         
+         function updateAdventure(value)
+         {
+            adventureType = value;
+         }
+         
+         function updateHowLong(value)
+         {
+            howLong = value;
+            jQuery("#showTimeNumber").html(value);
+         }
+         
+         function updatePeriodOfTime(value)
+         {
+            periodOfTime = value;
+            jQuery("#showTimePeriod").html(value);
+         }
+         
+         function updateOutside(value)
+         {
+            if ( value == "yes")
+               isOutside = true;
+            else
+               isOutside = false;
+         }
+         
+         
+         function saveValues()
+         {
+            writeCookies();
+            window.location.href = "book.html";
+         }
+         
+         function writeCookies()
+         {
+            document.cookie = "friendsCount=" + friends.length + ";";
+            
+            for (var index=0; index < friends.length; index++)
+            {
+               document.cookie = "friendsName" + index + "=" + friends[index][0] + ";";
+               document.cookie = "friendsSpecies" + index + "=" + friends[index][1] + ";";
+            }
+            
+            document.cookie = "bookTitle=" + bookTitle + ";";
+            document.cookie = "authorName=" + authorName + ";";
+            document.cookie = "home=" + home + ";";
+            document.cookie = "club=" + club + ";";
+            document.cookie = "adventureName=" + adventureName + ";";
+            document.cookie = "adventureType=" + adventureType + ";";
+            document.cookie = "howLong=" + howLong + ";";
+            document.cookie = "periodOfTime=" + periodOfTime + ";";
+            document.cookie = "isOutside=" + isOutside + ";";
+            document.cookie = "weather=" + weather + ";";
+         }
+         
+         function nullifyCookies()
+         {
+            document.cookie = "friendsCount=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            
+            for (var index=0; index < maxFriends; index++)
+            {
+               document.cookie = "friendsName" + index + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+               document.cookie = "friendsSpecies" + index + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            }
+            
+            document.cookie = "bookTitle=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "authorName=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "home=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "club=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "adventureName=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "adventureType=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "howLong=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "periodOfTime=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "isOutside=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+            document.cookie = "weather=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+         }
+
+         
+         function resetValues()
+         {
+            nullifyCookies();
+            
+            // Reset to default values.
+            friendCounter = 0;
+            friends = [];
+            
+            bookTitle = "title";
+            authorName = "The Great Adventure Writer";
+            home = "cave";
+            club = "club";
+            adventureName = "adventure";
+            adventureType = "swimming";
+            howLong = 1;
+            periodOfTime = "hour";
+            isOutside = true;
+            
+            weatherIndex = Math.floor(Math.random() * weatherOptions.length); 
+            weather = weatherOptions[weatherIndex];
+         
+            location.reload();
+         }
+         
+         function configureEventHandlers()
+         {
+            // bookTitle
+             var titleElement = document.getElementById("bookTitle");
+             if ( titleElement.addEventListener ) {
+               titleElement.addEventListener("focus", bookTitleFocus, false);
+               titleElement.addEventListener("blur", bookTitleBlur, false);
+             } else if ( titleElement.attachEvent ) {
+               titleElement.attachEvent("onfocus", bookTitleFocus);
+               titleElement.attachEvent("onblur", bookTitleBlur);
+             }
+             
+             // authorName
+             var authorElement = document.getElementById("authorName");
+             if ( authorElement.addEventListener ) {
+               authorElement.addEventListener("focus", authorNameFocus, false);
+               authorElement.addEventListener("blur", authorNameBlur, false);
+             } else if ( authorElement.attachEvent ) {
+               authorElement.attachEvent("onfocus", authorNameFocus);
+               authorElement.attachEvent("onblur", authorNameBlur);
+             }
+             
+             // clubName
+             var clubElement = document.getElementById("clubName");
+             if ( clubElement.addEventListener ) {
+               clubElement.addEventListener("focus", clubNameFocus, false);
+               clubElement.addEventListener("blur", clubNameBlur, false);
+             } else if ( clubElement.attachEvent ) {
+               clubElement.attachEvent("onfocus", clubNameFocus);
+               clubElement.attachEvent("onblur", clubNameBlur);
+             }
+             
+             // adventureName
+             var adventureElement = document.getElementById("adventureName");
+             if ( adventureElement.addEventListener ) {
+               adventureElement.addEventListener("focus", adventureNameFocus, false);
+               adventureElement.addEventListener("blur", adventureNameBlur, false);
+             } else if ( adventureElement.attachEvent ) {
+               adventureElement.attachEvent("onfocus", adventureNameFocus);
+               adventureElement.attachEvent("onblur", adventureNameBlur);
+             }
+         }
+         
+         function bookTitleFocus( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "title")
+            {
+               element.value = "";
+            }
+         }
+         
+         function bookTitleBlur( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "")
+            {
+               element.value = "title";
+            }
+            else
+            {
+               bookTitle = element.value;
+            }
+         }
+         
+         function authorNameFocus( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "your name")
+            {
+               element.value = "";
+            }
+         }
+         
+         function authorNameBlur( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "")
+            {
+               element.value = "your name";
+            }
+            else
+            {
+               authorName = element.value;
+            }
+         }
+         
+          function clubNameFocus( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "club")
+            {
+               element.value = "";
+            }
+         }
+         
+         function clubNameBlur( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "")
+            {
+               element.value = "club";
+            }
+            else
+            {
+               club = element.value;
+            }
+         }
+         
+         function adventureNameFocus( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "adventure")
+            {
+               element.value = "";
+            }
+         }
+         
+         function adventureNameBlur( e ) {
+            var element = e.target || window.event.srcElement;
+            if (element.value == "")
+            {
+               element.value = "adventure";
+            }
+            else
+            {
+               adventureName = element.value;
+            }
+         }
+         
+         function nameFocus( e ) {
+            var elementName = e.currentTarget.id;
+            var friendIndex = elementName.substring(10, elementName.length);
+            var element = e.target || window.event.srcElement;
+            if (element.value == "name " + friendIndex) element.value = "";
+         }
+         
+         function nameBlur( e ) {
+            var elementName = e.currentTarget.id;
+            var friendIndex = elementName.substring(10, elementName.length);
+            
+            var element = e.target || window.event.srcElement;
+            if (element.value == "")
+            {
+               element.value = "name " + friendIndex;
+            }
+            else
+            {
+               friends[friendIndex][0] = e.currentTarget.value;
+            }
+         }
+      </script>
+    </body>
+ </html>
