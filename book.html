@@ -7,7 +7,8 @@
     </head>
     <body>
     <div id="results" class="textRegion">Compiling your book...</div>
-    <button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button> 
+    <button type="submit" name="nextPage" id="nextPage" class="finalButtons bottomButtons" onclick="nextPage();">next page</button>
+    <button type="submit" name="startOver" id="startOver" class="finalButtons bottomButtons" onclick="startOver();">start over</button> 
     <script type="text/javascript">
     var cookieData = document.cookie;
     var fields = new Array();
@@ -38,10 +39,28 @@
       document.title = fields["bookTitle"];
       
       // Make the book. Define strings for pages after we parse the cookie data.
-      pages.push('<div id="title">' + fields["bookTitle"] + '</div><div id="author">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ", " + fields["friendsName0"] + ', was playing by ' + mainCharPosessive + ' house on a ' + fields["weather"] + ' day.</div>');
-      pages.push('Second page.');
-      pages.push('Third page.');
-      pages.push('Last page.');
+      pages.push('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div class="friendNames">' + fields["friendsName0"] + '</div>, was playing by ' + mainCharPosessive + ' ' + fields["home"] + ' on a ' + fields["weather"] + ' day.</div>');
+      
+      // Second page may have the club join.
+      if (fields["friendsCount"] > 1)
+      {
+         var friendsNamesCombined = fields["friendsName1"];
+         for (var idx = 2; idx < fields["friendsCount"]; idx++)
+         {
+            friendsNamesCombined += " and " + fields["friendsName" + idx];
+         }
+         pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. It was the ' + fields["club"] + ' gang! What adventure would they go on today?</div>');
+      }
+      else
+      {
+         pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
+      }
+      
+      // Decide on the adventure.
+      pages.push('<div id="mainBody" class="newSegment">How about ' + fields["adventureType"] + '? It would be the fantastic ' + fields["adventureName"] + ' '+ fields["adventureType"] + ' trip. And it would last for ' + fields["howLong"] + ' ' + fields["periodOfTime"] + ', that is how fun it would be.</div>');
+      
+      // Last page.
+      pages.push('<div id="mainBody" class="newSegment">It was an adventure <div class="friendNames">' + fields["friendsName0"] + '</div> would never forget.</div>');
       
       // Render the first page.
       jQuery("#results").html(pages[0]);
@@ -51,12 +70,21 @@
     function parseCookies()
     {
       var params = cookieData.split(";");
-
-      for (var idx = 0; idx < params.length; idx++)
+      
+      if (!(params === undefined) && (params.length > 0) && (params != ""))
       {
-         var field = params[idx].split("=");
-
-         fields[field[0].trim()] = field[1].trim();
+         for (var idx = 0; idx < params.length; idx++)
+         {
+            var field = params[idx].split("=");
+   
+            fields[field[0].trim()] = field[1].trim();
+         }
+      }
+      
+      if (fields["bookTitle"] === undefined)
+      {
+         // It seems we cannot find the data, so go back to index.
+         window.location = "index.html";
       }
     }
     
@@ -81,6 +109,19 @@
       jQuery("#results").html(pages[pageReading] + '<div id="theEnd" class="newSegment">The End.</div>');
       
       jQuery("#nextPage").hide();
+      jQuery("#startOver").show();
+    }
+    
+    // Start the book from the beginning.
+    function startOver()
+    {
+      pageReading = 0;
+      
+      // Render the first page.
+      jQuery("#results").html(pages[0]);
+      
+      jQuery("#nextPage").show();
+      jQuery("#startOver").hide();
     }
     
     // trims the leading and proceeding white-space

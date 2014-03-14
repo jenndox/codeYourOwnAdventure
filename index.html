@@ -14,10 +14,10 @@
 <div class="newSegment">private Book createStoryBook()</div>
 <div>{</div>
     <div class="indentOnce">// Give your book a title.</div>
-    <div class="indentOnce">string bookTitle = <input class="variableName" id="bookTitle" title="title" placeholder="title"/>;</div>
+    <div class="indentOnce">string bookTitle = <input class="variableName" id="bookTitle" class="titleText" title="title" placeholder="title"/>;</div>
     
     <div class="indentOnce newSegment">// What is your name?</div>
-    <div class="indentOnce">string authorName = <input class="variableName" id="authorName" title="your name" placeholder="your name"/>;</div>
+    <div class="indentOnce">string authorName = <input class="variableName" id="authorName" class="authorText" title="your name" placeholder="your name"/>;</div>
     
     <div id="friendsSection">
     <div class="indentOnce newSegment">// Then imagine a friend.</div>
@@ -43,7 +43,7 @@
 
     <div class="indentOnce newSegment">// How long will it take?</div>
     <div class="indentOnce">int howLong = <select name="numberForTime" class="dropDownSelector" onchange="updateHowLong(this.value);">
-    <option selected=>1</option><option>2</option>
+    <option>1</option><option selected>2</option>
     <option>3</option><option>4</option>
     <option>5</option><option>6</option>
     <option>7</option><option>8</option>
@@ -79,7 +79,7 @@
          var adventureName = "adventure";
          var adventureType = "swimming";
          var howLong = 1;
-         var periodOfTime = "hour";
+         var periodOfTime = "hours";
          var isOutside = true;
          
          var animalOptions = new Array("cat", "dog", "bumblebee", "dolphin", "tiger", "snake", "goldfish", "rabbit", "polar bear", "blue jay");
@@ -102,7 +102,7 @@
                allAnimalOptions = allAnimalOptions + "<option>" + animalOptions[idx] + "</option>";
             }
             
-            var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="name ' + friendCounter + '" /> = new Friend( <select name="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
+            var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName friendName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="name ' + friendCounter + '" /> = new Friend( <select name="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
           
             jQuery("#friendsSection").append(structureForNewFriend);
             
