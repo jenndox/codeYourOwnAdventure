@@ -1,40 +1,53 @@
-
 <!DOCTYPE html>
  <html>
     <head>
        <title>Your Book</title>
-       <style type="text/css">
-         body {
-             font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-             font-weight: 300;
-             font-size: larger;
-             min-width: 650px;
-             min-height: 400px;
-         }
-         
-         .textRegion
-         {
-            margin: 10px;
-         }
-         
-         .showResults
-         {
-            margin: 5px;
-         }
-         </style>
+       <link rel="stylesheet" type="text/css" href="book.css">
        <script type="text/javascript" src="../jquery-1.7.min.js"></script>
     </head>
     <body>
-    <div class="textRegion">Your story will be about: </div>
     <div id="results" class="textRegion">Compiling your book...</div>
+    <button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button> 
     <script type="text/javascript">
     var cookieData = document.cookie;
     var fields = new Array();
+    var mainCharPronoun = "she";
+    var mainCharPosessive = "her";
+    var pageReading = 0;
+    
+    var pages = new Array();
     
     jQuery(document).ready(function () {
-       updateResults();
+      // Coin toss to determine gender pronouns to use.
+      var mainCharFemale = Math.floor((Math.random()*10)+1);
+      if (mainCharFemale % 2 == 0)
+      {
+         mainCharPronoun = "he";
+         mainCharPosessive = "his";
+      }
+      
+      // Start the story on the first page.
+      firstPage();
     });
     
+    function firstPage()
+    {
+      parseCookies();
+      
+      // Update the title.
+      document.title = fields["bookTitle"];
+      
+      // Make the book. Define strings for pages after we parse the cookie data.
+      pages.push('<div id="title">' + fields["bookTitle"] + '</div><div id="author">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ", " + fields["friendsName0"] + ', was playing by ' + mainCharPosessive + ' house on a ' + fields["weather"] + ' day.</div>');
+      pages.push('Second page.');
+      pages.push('Third page.');
+      pages.push('Last page.');
+      
+      // Render the first page.
+      jQuery("#results").html(pages[0]);
+    }
+    
+    // Get the data we stored in cookies to use in the story.
     function parseCookies()
     {
       var params = cookieData.split(";");
@@ -42,24 +55,39 @@
       for (var idx = 0; idx < params.length; idx++)
       {
          var field = params[idx].split("=");
-         fields.push(field);
+
+         fields[field[0].trim()] = field[1].trim();
       }
     }
     
-    function updateResults()
+    // Each page that is not the first or the last.
+    function nextPage()
     {
-      parseCookies();
+      pageReading++;
       
-      var resultsString = "";
-      for (var idx = 0; idx < fields.length; idx++)
+      if (pageReading < pages.length - 1)
       {
-          if (fields[idx][0].indexOf("mp_super_properties") < 0)
-          {
-             resultsString += '<div class="showResults">' + fields[idx][0] + ': ' + fields[idx][1] + '</div>';
-          }
+         jQuery("#results").html(pages[pageReading]);
       }
-      jQuery("#results").html(resultsString);
+      else
+      {
+         lastPage();
+      }
     }
+    
+    // The last page.
+    function lastPage()
+    {
+      jQuery("#results").html(pages[pageReading] + '<div id="theEnd" class="newSegment">The End.</div>');
+      
+      jQuery("#nextPage").hide();
+    }
+    
+    // trims the leading and proceeding white-space
+   String.prototype.trim = function()
+   {
+       return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+   };
     
     </script>
     </body>
