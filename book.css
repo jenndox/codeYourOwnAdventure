@@ -1,0 +1,94 @@
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+    font-size: larger;
+    min-width: 650px;
+    min-height: 400px;
+}
+
+.variableName
+{
+    display:inline-block;
+    color:#007700;
+    margin: 2px;
+    font-size: larger;
+}
+
+.indentOnce
+{
+    margin-left: 40px;
+}
+
+.indentTwice
+{
+    margin-left:80px;
+}
+
+.newSegment
+{
+    margin-top:40px;
+}
+
+#bookCreator
+{
+    margin:40px;
+}
+
+.dropDownSelector
+{
+    font-size: 1.2em;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+}
+
+.finalButtons
+{
+    font-size: 1.2em;
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+   moz-border-radius: 15px;
+   -webkit-border-radius: 15px;
+   border: 5px solid #007700;
+   padding: 5px;
+}
+
+.inlineValues
+{
+   display:inline-block;
+}
+         
+.textRegion
+{
+   margin: 10px;
+}
+
+.showResults
+{
+   margin: 5px;
+}
+
+#title
+{
+   margin: 20px;
+   font-size: 3em;
+}
+
+#author
+{
+   margin-bottom: 20px;
+   margin-left: 60px;
+   font-size: 2em;
+}
+
+#mainBody
+{
+   margin: 10px;
+   font-size: 1.5em;
+}
+
+#theEnd
+{
+   margin: 10px;
+   margin-left:60px;
+   font-size: 2em;   
+}
