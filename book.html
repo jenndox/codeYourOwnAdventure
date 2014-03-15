@@ -1,143 +1,37 @@
 <!DOCTYPE html>
- <html>
-    <head>
+<html>
+   <head>
       <meta charset="UTF-8">
-       <title>Your Book</title>
-       <link rel="stylesheet" type="text/css" href="book.css">
-       <script type="text/javascript" src="jquery-1.7.min.js"></script>
-    </head>
-    <body>
-    <div id="results" class="textRegion">Compiling your book...</div>
-    <div class="bottomButtons"><button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button>
-    <button type="submit" name="startOver" id="startOver" class="finalButtons" onclick="startOver();">read again</button><button type="submit" name="makeANewBook" id="makeANewBook" class="finalButtons" onclick="makeANewBook();">make a new book</button> </div>
-    <script type="text/javascript">
-    var cookieData = document.cookie;
-    var fields = new Array();
-    var mainCharPronoun = "she";
-    var mainCharPosessive = "her";
-    var pageReading = 0;
-    
-    var pages = new Array();
-    
-    jQuery(document).ready(function () {
-      // Coin toss to determine gender pronouns to use.
-      var mainCharFemale = Math.floor((Math.random()*10)+1);
-      if (mainCharFemale % 2 == 0)
-      {
-         mainCharPronoun = "he";
-         mainCharPosessive = "his";
-      }
+      <title>Your Book</title>
+      <link rel="stylesheet" type="text/css" href="book.css">
+      <script type="text/javascript" src="jquery-1.7.min.js"></script>
+   </head>
+   <body>
+      <div id="results" class="textRegion">Compiling your book...</div>
+      <div class="bottomButtons"><button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button>
+      <button type="submit" name="startOver" id="startOver" class="finalButtons" onclick="startOver();">read again</button><button type="submit" name="makeANewBook" id="makeANewBook" class="finalButtons" onclick="makeANewBook();">make a new book</button> </div>
+      <script type="text/javascript" src="book.js"></script>
+      <script type="text/javascript">
+      var cookieData = document.cookie;
+      var fields = new Array();
+      var mainCharPronoun = "she";
+      var mainCharPosessive = "her";
+      var pageReading = 0;
       
-      // Start the story on the first page.
-      firstPage();
-    });
-    
-    function firstPage()
-    {
-      parseCookies();
+      var pages = new Array();
       
-      // Update the title.
-      document.title = fields["bookTitle"];
-      
-      // Make the book. Define strings for pages after we parse the cookie data.
-      pages.push('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was playing by ' + mainCharPosessive + ' ' + fields["home"] + ' on a ' + fields["weather"] + ' day.</div>');
-      
-      // Second page may have the friends join.
-      if (fields["friendsCount"] > 1)
-      {
-         var friendsNamesCombined = '<div style="background-image:url(' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
-         for (var idx = 2; idx < fields["friendsCount"]; idx++)
+      jQuery(document).ready(function () {
+         // Coin toss to determine gender pronouns to use.
+         var mainCharFemale = Math.floor((Math.random()*10)+1);
+         if (mainCharFemale % 2 == 0)
          {
-            friendsNamesCombined += " and " + '<div style="background-image:url(' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
+            mainCharPronoun = "he";
+            mainCharPosessive = "his";
          }
-         pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
-      }
-      else
-      {
-         pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
-      }
-      
-      // Decide on the adventure.
-      pages.push('<div id="mainBody" class="newSegment">I seriously need a better story.</div>');
-      
-      // Last page.
-      pages.push('<div id="mainBody" class="newSegment">Bye bye, <div class="friendNames"><div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName0"] + '!</div></div></div>');
-      
-      // Render the first page.
-      jQuery("#results").html(pages[0]);
-    }
-    
-    // Get the data we stored in cookies to use in the story.
-    function parseCookies()
-    {
-      var params = cookieData.split(";");
-      
-      if (!(params === undefined) && (params.length > 0) && (params != ""))
-      {
-         for (var idx = 0; idx < params.length; idx++)
-         {
-            var field = params[idx].split("=");
-   
-            fields[field[0].trim()] = field[1].trim();
-         }
-      }
-      
-      if (fields["bookTitle"] === undefined)
-      {
-         // It seems we cannot find the data, so go back to index.
-         window.location = "index.html";
-      }
-    }
-    
-    // Each page that is not the first or the last.
-    function nextPage()
-    {
-      pageReading++;
-      
-      if (pageReading < pages.length - 1)
-      {
-         jQuery("#results").html(pages[pageReading]);
-      }
-      else
-      {
-         lastPage();
-      }
-    }
-    
-    // The last page.
-    function lastPage()
-    {
-      jQuery("#results").html(pages[pageReading] + '<div id="theEnd" class="newSegment">The End.</div>');
-      
-      jQuery("#nextPage").hide();
-      jQuery("#startOver").show();
-      jQuery("#makeANewBook").show();
-    }
-    
-    // Start the book from the beginning.
-    function startOver()
-    {
-      pageReading = 0;
-      
-      // Render the first page.
-      jQuery("#results").html(pages[0]);
-      
-      jQuery("#nextPage").show();
-      jQuery("#startOver").hide();
-      jQuery("#makeANewBook").hide();
-    }
-    
-    function makeANewBook()
-    {
-      window.location.href = "index.html";
-    }
-    
-    // trims the leading and proceeding white-space
-   String.prototype.trim = function()
-   {
-       return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-   };
-    
-    </script>
-    </body>
+         
+         // Start the story on the first page.
+         firstPage();
+      });
+      </script>
+   </body>
  </html>
