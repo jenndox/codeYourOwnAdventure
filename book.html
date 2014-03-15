@@ -41,7 +41,7 @@
       // Make the book. Define strings for pages after we parse the cookie data.
       pages.push('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div class="friendNames">' + fields["friendsName0"] + '</div>, was playing by ' + mainCharPosessive + ' ' + fields["home"] + ' on a ' + fields["weather"] + ' day.</div>');
       
-      // Second page may have the club join.
+      // Second page may have the friends join.
       if (fields["friendsCount"] > 1)
       {
          var friendsNamesCombined = fields["friendsName1"];
@@ -49,7 +49,7 @@
          {
             friendsNamesCombined += " and " + fields["friendsName" + idx];
          }
-         pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. It was the ' + fields["club"] + ' gang! What adventure would they go on today?</div>');
+         pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
       }
       else
       {

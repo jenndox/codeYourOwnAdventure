@@ -27,39 +27,9 @@
     <div class="indentOnce newSegment">// Where do the friends live?</div>
     <div class="indentOnce">Home friendsHome = new Home( <select name="homeForFriend" class="dropDownSelector" onchange="updateHome(this.value);">
     <option>cave</option><option>tree</option>
-    <option>pond</option><option>cloud</option></select> );</div> 
-
-    <div class="indentOnce newSegment">// These friends all hang out together</div>
-    <div class="indentOnce">Club <input class="variableName" id="clubName" title="club" placeholder="club"/> = new Club();</div>
-    <div class="indentOnce">foreach (friend in friends) </div>
-    <div class="indentOnce">{</div>
-      <div class="indentTwice">club.add(friend);</div>
-    <div class="indentOnce">}</div>
-
-    <div class="indentOnce newSegment">// What do they want to do?</div>
-    <div class="indentOnce">Adventure <input class="variableName" id="adventureName" title="adventure" placeholder="adventure"/> = new Adventure( <select name="speciesFriend" class="dropDownSelector" onchange="updateAdventure(this.value);">
-    <option>swimming</option><option>climbing</option>
-    <option>digging</option><option>exploring</option></select> );</div>
-
-    <div class="indentOnce newSegment">// How long will it take?</div>
-    <div class="indentOnce">int howLong = <select name="numberForTime" class="dropDownSelector" onchange="updateHowLong(this.value);">
-    <option>1</option><option selected>2</option>
-    <option>3</option><option>4</option>
-    <option>5</option><option>6</option>
-    <option>7</option><option>8</option>
-    <option>9</option><option>10</option></select>;</div>
-    <div class="indentOnce">time whatTime = <select name="periodForTime" class="dropDownSelector" onchange="updatePeriodOfTime(this.value);">
-    <option>hours</option><option>days</option>
-    <option>months</option><option>years</option></select>;</div>
-    <div class="indentOnce">adventure.time = <div id="showTimeNumber" class="inlineValues">1</div> * <div id="showTimePeriod" class="inlineValues">hour</div>;</div>
-
-    <div class="indentOnce newSegment">bool isOutside = <select name="weatherNeeded" class="dropDownSelector" onchange="updateOutside(this.value);"><option>yes</option><option>no</option></select>;</div>
-    <div class="indentOnce">if ( isOutside )</div>
-    <div class="indentOnce">{</div>
-        <div class="indentTwice">Weather forecast = Weather.random();</div>
-    <div class="indentOnce">}</div>
+    <option>pond</option><option>cloud</option></select> );</div>
     
-    <div class="indentOnce newSegment">return new Book(bookTitle, club, adventure, forecast);</div>
+    <div class="indentOnce newSegment">return new Book(bookTitle, authorName);</div>
     
 <div newSegment>}</div>
 <br />
@@ -75,12 +45,6 @@
          var bookTitle = "title";
          var authorName = "The Great Adventure Writer";
          var home = "cave";
-         var club = "club";
-         var adventureName = "adventure";
-         var adventureType = "swimming";
-         var howLong = 1;
-         var periodOfTime = "hours";
-         var isOutside = true;
          
          var animalOptions = new Array("cat", "dog", "bumblebee", "dolphin", "tiger", "snake", "goldfish", "rabbit", "polar bear", "blue jay");
          
@@ -140,32 +104,6 @@
             home = value;
          }
          
-         function updateAdventure(value)
-         {
-            adventureType = value;
-         }
-         
-         function updateHowLong(value)
-         {
-            howLong = value;
-            jQuery("#showTimeNumber").html(value);
-         }
-         
-         function updatePeriodOfTime(value)
-         {
-            periodOfTime = value;
-            jQuery("#showTimePeriod").html(value);
-         }
-         
-         function updateOutside(value)
-         {
-            if ( value == "yes")
-               isOutside = true;
-            else
-               isOutside = false;
-         }
-         
-         
          function saveValues()
          {
             writeCookies();
@@ -185,12 +123,6 @@
             document.cookie = "bookTitle=" + bookTitle + ";";
             document.cookie = "authorName=" + authorName + ";";
             document.cookie = "home=" + home + ";";
-            document.cookie = "club=" + club + ";";
-            document.cookie = "adventureName=" + adventureName + ";";
-            document.cookie = "adventureType=" + adventureType + ";";
-            document.cookie = "howLong=" + howLong + ";";
-            document.cookie = "periodOfTime=" + periodOfTime + ";";
-            document.cookie = "isOutside=" + isOutside + ";";
             document.cookie = "weather=" + weather + ";";
          }
          
@@ -207,12 +139,6 @@
             document.cookie = "bookTitle=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "authorName=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "home=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "club=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "adventureName=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "adventureType=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "howLong=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "periodOfTime=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-            document.cookie = "isOutside=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "weather=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
          }
 
@@ -228,12 +154,6 @@
             bookTitle = "title";
             authorName = "The Great Adventure Writer";
             home = "cave";
-            club = "club";
-            adventureName = "adventure";
-            adventureType = "swimming";
-            howLong = 1;
-            periodOfTime = "hour";
-            isOutside = true;
             
             weatherIndex = Math.floor(Math.random() * weatherOptions.length); 
             weather = weatherOptions[weatherIndex];
@@ -261,26 +181,6 @@
              } else if ( authorElement.attachEvent ) {
                authorElement.attachEvent("onfocus", authorNameFocus);
                authorElement.attachEvent("onblur", authorNameBlur);
-             }
-             
-             // clubName
-             var clubElement = document.getElementById("clubName");
-             if ( clubElement.addEventListener ) {
-               clubElement.addEventListener("focus", clubNameFocus, false);
-               clubElement.addEventListener("blur", clubNameBlur, false);
-             } else if ( clubElement.attachEvent ) {
-               clubElement.attachEvent("onfocus", clubNameFocus);
-               clubElement.attachEvent("onblur", clubNameBlur);
-             }
-             
-             // adventureName
-             var adventureElement = document.getElementById("adventureName");
-             if ( adventureElement.addEventListener ) {
-               adventureElement.addEventListener("focus", adventureNameFocus, false);
-               adventureElement.addEventListener("blur", adventureNameBlur, false);
-             } else if ( adventureElement.attachEvent ) {
-               adventureElement.attachEvent("onfocus", adventureNameFocus);
-               adventureElement.attachEvent("onblur", adventureNameBlur);
              }
          }
          
@@ -321,46 +221,6 @@
             else
             {
                authorName = element.value;
-            }
-         }
-         
-          function clubNameFocus( e ) {
-            var element = e.target || window.event.srcElement;
-            if (element.value == "club")
-            {
-               element.value = "";
-            }
-         }
-         
-         function clubNameBlur( e ) {
-            var element = e.target || window.event.srcElement;
-            if (element.value == "")
-            {
-               element.value = "club";
-            }
-            else
-            {
-               club = element.value;
-            }
-         }
-         
-         function adventureNameFocus( e ) {
-            var element = e.target || window.event.srcElement;
-            if (element.value == "adventure")
-            {
-               element.value = "";
-            }
-         }
-         
-         function adventureNameBlur( e ) {
-            var element = e.target || window.event.srcElement;
-            if (element.value == "")
-            {
-               element.value = "adventure";
-            }
-            else
-            {
-               adventureName = element.value;
             }
          }
          
