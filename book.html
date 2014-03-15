@@ -4,13 +4,13 @@
       <meta charset="UTF-8">
       <title>Your Book</title>
       <link rel="stylesheet" type="text/css" href="css/book.css">
-      <script type="text/javascript" src="jquery-1.7.min.js"></script>
+      <script type="text/javascript" src="js/jquery-1.7.min.js"></script>
    </head>
    <body>
       <div id="titleRegion" class="textRegion">Compiling your book...</div>
       <div id="results" class="textRegion"></div>
       <div id="drawAdventureContainer"><canvas id="drawAdventure" width="900" height="300"></canvas>
-      <div id="colors"><input name="black" type="button" onclick="penColor = 'black';" value="Black" style="background-color: black;" /> <input name="blue" type="button" onclick="penColor = 'blue';" value="Blue" style="background-color: blue;" /> <input name="green" type="button" onclick="penColor = 'green';" value="Green" style="background-color: green;" /><input name="red" type="button" onclick="penColor = 'red';" value="Red" style="background-color: red;" /> <input name="orange" type="button" onclick="penColor = 'orange';" value="Orange" style="background-color: orange;" /> <input name="purple" type="button" onclick="penColor = 'purple';" value="Purple" style="background-color: purple;" /><input name="clear" type="button" onclick="clearCanvas();" value="Clear the Canvas" /></div></div>
+      <div id="colors"><input name="black" type="button" onclick="penColor = 'black';" value="black" style="background-color: black; color: white;" /> <input name="blue" type="button" onclick="penColor = 'blue';" value="blue" style="background-color: blue; color: white;" /> <input name="green" type="button" onclick="penColor = 'green';" value="green" style="background-color: green;" /> <input name="red" type="button" onclick="penColor = 'red';" value="red" style="background-color: red;" /> <input name="orange" type="button" onclick="penColor = 'orange';" value="orange" style="background-color: orange;" /> <input name="purple" type="button" onclick="penColor = 'purple';" value="purple" style="background-color: purple; color: white;" /> <input name="brown" type="button" onclick="penColor = 'brown';" value="brown" style="background-color: brown; color: white;" /> <input name="clear" type="button" onclick="clearCanvas();" value="erase drawing" /></div></div>
       <div class="bottomButtons"><button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button>
       <button type="submit" name="startOver" id="startOver" class="finalButtons" onclick="startOver();">read again</button><button type="submit" name="makeANewBook" id="makeANewBook" class="finalButtons" onclick="makeANewBook();">make a new book</button> </div>
       <script type="text/javascript" src="js/Input.js"></script>
