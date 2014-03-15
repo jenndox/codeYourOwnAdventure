@@ -1,14 +1,15 @@
 <!DOCTYPE html>
  <html>
     <head>
+      <meta charset="UTF-8">
        <title>Your Book</title>
        <link rel="stylesheet" type="text/css" href="book.css">
-       <script type="text/javascript" src="../jquery-1.7.min.js"></script>
+       <script type="text/javascript" src="jquery-1.7.min.js"></script>
     </head>
     <body>
     <div id="results" class="textRegion">Compiling your book...</div>
-    <button type="submit" name="nextPage" id="nextPage" class="finalButtons bottomButtons" onclick="nextPage();">next page</button>
-    <button type="submit" name="startOver" id="startOver" class="finalButtons bottomButtons" onclick="startOver();">start over</button> 
+    <div class="bottomButtons"><button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button>
+    <button type="submit" name="startOver" id="startOver" class="finalButtons" onclick="startOver();">read again</button><button type="submit" name="makeANewBook" id="makeANewBook" class="finalButtons" onclick="makeANewBook();">make a new book</button> </div>
     <script type="text/javascript">
     var cookieData = document.cookie;
     var fields = new Array();
@@ -39,28 +40,28 @@
       document.title = fields["bookTitle"];
       
       // Make the book. Define strings for pages after we parse the cookie data.
-      pages.push('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div class="friendNames">' + fields["friendsName0"] + '</div>, was playing by ' + mainCharPosessive + ' ' + fields["home"] + ' on a ' + fields["weather"] + ' day.</div>');
+      pages.push('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div><div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was playing by ' + mainCharPosessive + ' ' + fields["home"] + ' on a ' + fields["weather"] + ' day.</div>');
       
       // Second page may have the friends join.
       if (fields["friendsCount"] > 1)
       {
-         var friendsNamesCombined = fields["friendsName1"];
+         var friendsNamesCombined = '<div style="background-image:url(' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
          for (var idx = 2; idx < fields["friendsCount"]; idx++)
          {
-            friendsNamesCombined += " and " + fields["friendsName" + idx];
+            friendsNamesCombined += " and " + '<div style="background-image:url(' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
          }
          pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
       }
       else
       {
-         pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
+         pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
       }
       
       // Decide on the adventure.
-      pages.push('<div id="mainBody" class="newSegment">How about ' + fields["adventureType"] + '? It would be the fantastic ' + fields["adventureName"] + ' '+ fields["adventureType"] + ' trip. And it would last for ' + fields["howLong"] + ' ' + fields["periodOfTime"] + ', that is how fun it would be.</div>');
+      pages.push('<div id="mainBody" class="newSegment">I seriously need a better story.</div>');
       
       // Last page.
-      pages.push('<div id="mainBody" class="newSegment">It was an adventure <div class="friendNames">' + fields["friendsName0"] + '</div> would never forget.</div>');
+      pages.push('<div id="mainBody" class="newSegment">Bye bye, <div class="friendNames"><div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName0"] + '!</div></div></div>');
       
       // Render the first page.
       jQuery("#results").html(pages[0]);
@@ -110,6 +111,7 @@
       
       jQuery("#nextPage").hide();
       jQuery("#startOver").show();
+      jQuery("#makeANewBook").show();
     }
     
     // Start the book from the beginning.
@@ -122,6 +124,12 @@
       
       jQuery("#nextPage").show();
       jQuery("#startOver").hide();
+      jQuery("#makeANewBook").hide();
+    }
+    
+    function makeANewBook()
+    {
+      window.location.href = "index.html";
     }
     
     // trims the leading and proceeding white-space

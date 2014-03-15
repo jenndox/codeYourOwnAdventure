@@ -1,23 +1,22 @@
 <!DOCTYPE html>
  <html>
+   <meta charset="UTF-8">
     <head>
        <title>Code your own Adventure</title>
        <link rel="stylesheet" type="text/css" href="book.css">
-       <script type="text/javascript" src="../jquery-1.7.min.js"></script>
+       <script type="text/javascript" src="jquery-1.7.min.js"></script>
     </head>
     <body>
       <div id="bookCreator">
-<div>/// ----------------------------------------------------------------------------------------///</div>
-<div>/// What does coding look like when you are still learning to read?</div>
-<div>/// ----------------------------------------------------------------------------------------///</div>
+<div class="newSegment">// Tell me your story!</div>
 
-<div class="newSegment">private Book createStoryBook()</div>
+<div>private Book createStoryBook()</div>
 <div>{</div>
     <div class="indentOnce">// Give your book a title.</div>
-    <div class="indentOnce">string bookTitle = <input class="variableName" id="bookTitle" class="titleText" title="title" placeholder="title"/>;</div>
+    <div class="indentOnce">string bookTitle = <input class="variableName" id="bookTitle" class="titleText" title="title" placeholder="My Book's Title"/>;</div>
     
     <div class="indentOnce newSegment">// What is your name?</div>
-    <div class="indentOnce">string authorName = <input class="variableName" id="authorName" class="authorText" title="your name" placeholder="your name"/>;</div>
+    <div class="indentOnce">string authorName = <input class="variableName" id="authorName" class="authorText" title="your name" placeholder="Your Name"/>;</div>
     
     <div id="friendsSection">
     <div class="indentOnce newSegment">// Then imagine a friend.</div>
@@ -39,14 +38,17 @@
       
       <script type="text/javascript">
          var friendCounter = 0;
-         var maxFriends = 10;
+         var maxFriends = 5;
          var friends = [];
          
-         var bookTitle = "title";
+         var bookTitle = "My Book's Title";
          var authorName = "The Great Adventure Writer";
          var home = "cave";
          
-         var animalOptions = new Array("cat", "dog", "bumblebee", "dolphin", "tiger", "snake", "goldfish", "rabbit", "polar bear", "blue jay");
+         var animalOptions = new Array("lion", "penguin", "rhino",
+                                       "jellyfish", "turtle", "snake",
+                                       "elephant", "whale", "bear", 
+                                       "bird", "seahorse", "zebra");
          
          var weatherOptions = new Array("sunny", "cloudy", "rainy", "snowy", "breezy", "chilly");
          var weatherIndex = Math.floor(Math.random() * weatherOptions.length); 
@@ -63,10 +65,10 @@
             var allAnimalOptions = "";
             for (var idx = 0; idx < animalOptions.length; idx++)
             {
-               allAnimalOptions = allAnimalOptions + "<option>" + animalOptions[idx] + "</option>";
+               allAnimalOptions = allAnimalOptions + '<option style="background-image:url(' + animalOptions[idx] + '.png); background-repeat:no-repeat; background-position:right center; height:54px; min-width:180px;">' + animalOptions[idx] + "</option>";
             }
             
-            var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName friendName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="name ' + friendCounter + '" /> = new Friend( <select name="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
+            var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName friendName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="Friend number ' + (friendCounter + 1) + '" /> = new Friend( <select name="speciesFriend" id="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
           
             jQuery("#friendsSection").append(structureForNewFriend);
             
@@ -82,7 +84,7 @@
             
             // Add the friend to our list.
             var friendData = new Array(2);
-            friendData[0] = "name" + friendCounter;
+            friendData[0] = "Friend number " + (friendCounter + 1) ;
             friendData[1] = animalOptions[0];
             friends.push(friendData);
             friendCounter++;
@@ -151,8 +153,8 @@
             friendCounter = 0;
             friends = [];
             
-            bookTitle = "title";
-            authorName = "The Great Adventure Writer";
+            bookTitle = "My Book's Title";
+            authorName = "You Name";
             home = "cave";
             
             weatherIndex = Math.floor(Math.random() * weatherOptions.length); 
@@ -186,7 +188,7 @@
          
          function bookTitleFocus( e ) {
             var element = e.target || window.event.srcElement;
-            if (element.value == "title")
+            if (element.value == "My Book's Title")
             {
                element.value = "";
             }
@@ -196,7 +198,7 @@
             var element = e.target || window.event.srcElement;
             if (element.value == "")
             {
-               element.value = "title";
+               element.value = "My Book's Title";
             }
             else
             {
@@ -206,7 +208,7 @@
          
          function authorNameFocus( e ) {
             var element = e.target || window.event.srcElement;
-            if (element.value == "your name")
+            if (element.value == "Your Name")
             {
                element.value = "";
             }
@@ -216,7 +218,7 @@
             var element = e.target || window.event.srcElement;
             if (element.value == "")
             {
-               element.value = "your name";
+               element.value = "Your Name";
             }
             else
             {
@@ -228,7 +230,7 @@
             var elementName = e.currentTarget.id;
             var friendIndex = elementName.substring(10, elementName.length);
             var element = e.target || window.event.srcElement;
-            if (element.value == "name " + friendIndex) element.value = "";
+            if (element.value == "Friend number " + (friendCounter + 1)) element.value = "";
          }
          
          function nameBlur( e ) {
@@ -238,7 +240,7 @@
             var element = e.target || window.event.srcElement;
             if (element.value == "")
             {
-               element.value = "name " + friendIndex;
+               element.value = "Friend number " + (friendCounter + 1);
             }
             else
             {
