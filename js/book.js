@@ -201,24 +201,24 @@ function firstPage()
     jQuery("#titleRegion").show();
     
     // Make the book. Define strings for pages after we parse the cookie data.
-    pages.push('<div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was napping in a hammock by ' + mainCharPosessive + ' ' + fields["home"] + ' on a fine ' + fields["weather"] + ' day.</div>');
+    pages.push('<div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was napping in a hammock by ' + mainCharPosessive + ' ' + fields["home"] + ' on a fine ' + fields["weather"] + ' day.</div>');
     
-    var allNamesCombined = '<div class="friendNames"><div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>';
+    var allNamesCombined = '<div class="friendNames"><div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>';
     
     // Second page may have the friends join.
     if (fields["friendsCount"] > 1)
     {
-        var friendsNamesCombined = '<div style="background-image:url(' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
+        var friendsNamesCombined = '<div style="background-image:url(images/' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
         for (var idx = 2; idx < fields["friendsCount"]; idx++)
         {
-            friendsNamesCombined += " and " + '<div style="background-image:url(' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
+            friendsNamesCombined += " and " + '<div style="background-image:url(images/' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
         }
         allNamesCombined += " and " + friendsNamesCombined + "</div>";
         pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
     }
     else
     {
-     pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
+     pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
     }
   
     // Soar to the clouds.
@@ -262,7 +262,7 @@ function parseCookies()
     if (fields["bookTitle"] === undefined)
     {
         // It seems we cannot find the data, so go back to index.
-       // window.location = "index.html";
+        window.location = "index.html";
     }
 }
 
@@ -371,7 +371,7 @@ function setCursor(canvas, name) {
 function setupInputHandlers() {
 
     handlers.onMouseDown = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 20;;
+        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
         leftMouseDown = true;
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
@@ -391,7 +391,7 @@ function setupInputHandlers() {
     }
 
     handlers.onMouseMove = function (x, y) {
-        y -= $("#drawAdventureContainer").offset().top - 20;;
+        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
         if (leftMouseDown == true) {
             ctx.fillStyle = penColor;
             ctx.strokeStyle = penColor;
@@ -415,7 +415,7 @@ function setupInputHandlers() {
     }
 
     handlers.onTouchStart = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 20;;
+        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
         leftMouseDown = true;
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
@@ -435,7 +435,7 @@ function setupInputHandlers() {
     }
 
     handlers.onTouchMove = function (x, y) {
-        y -= $("#drawAdventureContainer").offset().top - 20;;
+        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
         if (leftMouseDown == true) {
             ctx.fillStyle = penColor;
             ctx.strokeStyle = penColor;
@@ -456,7 +456,7 @@ function setupInputHandlers() {
 
 
     handlers.onGestureStart = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 20;;
+        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
         lastMouseY = y;
