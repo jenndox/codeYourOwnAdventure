@@ -3,7 +3,7 @@
    <meta charset="UTF-8">
    <head>
       <title>Code your own Adventure</title>
-      <link rel="stylesheet" type="text/css" href="book.css">
+      <link rel="stylesheet" type="text/css" href="css/book.css">
       <script type="text/javascript" src="jquery-1.7.min.js"></script>
    </head>
    <body>
@@ -35,7 +35,8 @@
 <button type="submit" name="createBook" id="createBook" class="finalButtons" onclick="saveValues();">create my book</button> <button type="reset" name="clearBook" id="clearBook" class="finalButtons" onclick="resetValues();">start all over</button>
 <br />
       </div>
-      <script type="text/javascript" src="book.js"></script>
+<div id="finePrint">Pictures courtesy of http://www.customizedgirl.com/.</div>
+      <script type="text/javascript" src="js/book.js"></script>
       <script type="text/javascript">
          var friendCounter = 0;
          var maxFriends = 5;
@@ -46,9 +47,9 @@
          var home = "cave";
          
          var animalOptions = new Array("lion", "penguin", "rhino",
-                  "jellyfish", "turtle", "snake",
-                  "elephant", "whale", "bear", 
-                  "bird", "seahorse", "zebra");
+                  "jellyfish", "turtle", "snake", "monkey",
+                  "elephant", "whale", "bear", "seaturtle",
+                  "bird", "seahorse", "zebra", "camel");
          
          var weatherOptions = new Array("sunny", "cloudy", "rainy", "snowy", "breezy", "chilly");
          var weatherIndex = Math.floor(Math.random() * weatherOptions.length); 

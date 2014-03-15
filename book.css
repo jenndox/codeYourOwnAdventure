@@ -112,7 +112,7 @@ body {
 
 .bottomButtons
 {
-    margin-top: 300px;
+    margin-top: 10px;
     margin-left: 500px;
 }
 
@@ -120,4 +120,16 @@ body {
 {
     display: none;
     margin: 5px;
+}
+
+#finePrint
+{
+    font-size:.4em;
+}
+
+#drawAdventure
+{
+    margin-top: 200px;
+    display: block;
+    position: absolute;
 }

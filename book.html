@@ -3,14 +3,18 @@
    <head>
       <meta charset="UTF-8">
       <title>Your Book</title>
-      <link rel="stylesheet" type="text/css" href="book.css">
+      <link rel="stylesheet" type="text/css" href="css/book.css">
       <script type="text/javascript" src="jquery-1.7.min.js"></script>
    </head>
    <body>
-      <div id="results" class="textRegion">Compiling your book...</div>
+      <div id="titleRegion" class="textRegion">Compiling your book...</div>
+      <div id="results" class="textRegion"></div>
+      <div id="drawAdventureContainer"><canvas id="drawAdventure" width="900" height="300"></canvas>
+      <div id="colors"><input name="black" type="button" onclick="penColor = 'black';" value="Black" style="background-color: black;" /> <input name="blue" type="button" onclick="penColor = 'blue';" value="Blue" style="background-color: blue;" /> <input name="green" type="button" onclick="penColor = 'green';" value="Green" style="background-color: green;" /><input name="red" type="button" onclick="penColor = 'red';" value="Red" style="background-color: red;" /> <input name="orange" type="button" onclick="penColor = 'orange';" value="Orange" style="background-color: orange;" /> <input name="purple" type="button" onclick="penColor = 'purple';" value="Purple" style="background-color: purple;" /><input name="clear" type="button" onclick="clearCanvas();" value="Clear the Canvas" /></div></div>
       <div class="bottomButtons"><button type="submit" name="nextPage" id="nextPage" class="finalButtons" onclick="nextPage();">next page</button>
       <button type="submit" name="startOver" id="startOver" class="finalButtons" onclick="startOver();">read again</button><button type="submit" name="makeANewBook" id="makeANewBook" class="finalButtons" onclick="makeANewBook();">make a new book</button> </div>
-      <script type="text/javascript" src="book.js"></script>
+      <script type="text/javascript" src="js/Input.js"></script>
+      <script type="text/javascript" src="js/book.js"></script>
       <script type="text/javascript">
       var cookieData = document.cookie;
       var fields = new Array();
@@ -20,6 +24,14 @@
       
       var pages = new Array();
       
+      var isIE = (window.navigator.userAgent.indexOf("MSIE") >= 0);
+      var mainCanvas = null;
+      var ctx = null;
+      var cloud = null;
+      var viewport = null;
+      var lastMouseX = 0, lastMouseY = 0;
+      var penColor = "blue";
+      
       jQuery(document).ready(function () {
          // Coin toss to determine gender pronouns to use.
          var mainCharFemale = Math.floor((Math.random()*10)+1);
@@ -28,6 +40,8 @@
             mainCharPronoun = "he";
             mainCharPosessive = "his";
          }
+         
+         setUpDrawingArea();
          
          // Start the story on the first page.
          firstPage();
