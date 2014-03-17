@@ -4,6 +4,7 @@ body {
     font-size: larger;
     min-width: 650px;
     min-height: 400px;
+    background-color: rgb(230,230,230);
 }
 
 .variableName
@@ -131,4 +132,18 @@ body {
 {
     margin: 0px;
     display: block;
+}
+
+#drawAdventure
+{
+    background-color: white;
+}
+
+.animalImage
+{
+    background-repeat:no-repeat;
+    background-position:center bottom;
+    height:54px;
+    min-width:70px;
+    display: inline-block;
 }

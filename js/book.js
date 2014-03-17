@@ -7,7 +7,7 @@ function addFriend()
         allAnimalOptions = allAnimalOptions + '<option style="background-image:url(images/' + animalOptions[idx] + '.png); background-repeat:no-repeat; background-position:right center; height:54px; min-width:180px;">' + animalOptions[idx] + "</option>";
     }
     
-    var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName friendName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="Friend number ' + (friendCounter + 1) + '" /> = new Friend( <select name="speciesFriend" id="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );</div></div>';
+    var structureForNewFriend = '<div class="indentOnce">Friend <input class="variableName friendName" id="friendName' + friendCounter + '" title="name ' + friendCounter + '" placeholder="Friend number ' + (friendCounter + 1) + '" /> = new Friend( <select name="speciesFriend" id="speciesFriend" class="dropDownSelector" onchange="updateFriendAnimal(' + friendCounter + ', this.value);">' + allAnimalOptions + '</select> );<div id="animalImage' + friendCounter + '" class="animalImage" style="background-image:url(images/' + animalOptions[0] + '.png);"></div></div></div>';
   
     jQuery("#friendsSection").append(structureForNewFriend);
     
@@ -37,7 +37,8 @@ function addFriend()
 
 function updateFriendAnimal(friendIndex, value)
 {
-   friends[friendIndex][1] = value;
+    jQuery("#animalImage" + friendIndex).css("background-image", "url(images/" + value + ".png)");
+    friends[friendIndex][1] = value;
 }
 
 function updateHome(value)
@@ -189,6 +190,8 @@ function nameBlur( e ) {
 
 // ---- Pertains to book.html code -----
 
+var haveSetUpPages = false;
+
 // Set up and render the first page.
 function firstPage()
 {
@@ -200,48 +203,51 @@ function firstPage()
     jQuery("#titleRegion").html('<div id="title" class="titleText">' + fields["bookTitle"] + '</div><div id="author" class="authorText">by ' + fields["authorName"] + '</div>');
     jQuery("#titleRegion").show();
     
-    // Make the book. Define strings for pages after we parse the cookie data.
-    pages.push('<div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was napping in a hammock by ' + mainCharPosessive + ' ' + fields["home"] + ' on a fine ' + fields["weather"] + ' day.</div>');
-    
-    var allNamesCombined = '<div class="friendNames"><div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>';
-    
-    // Second page may have the friends join.
-    if (fields["friendsCount"] > 1)
+    if (!haveSetUpPages)
     {
-        var friendsNamesCombined = '<div style="background-image:url(images/' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
-        for (var idx = 2; idx < fields["friendsCount"]; idx++)
+        // Make the book. Define strings for pages after we parse the cookie data.
+        pages.push('<div id="mainBody" class="newSegment">The little ' + fields["friendsSpecies0"] + ', <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>, was napping in a hammock by ' + mainCharPosessive + ' ' + fields["home"] + ' on a fine ' + fields["weather"] + ' day.</div>');
+        
+        var allNamesCombined = '<div class="friendNames"><div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div>';
+        
+        // Second page may have the friends join.
+        if (fields["friendsCount"] > 1)
         {
-            friendsNamesCombined += " and " + '<div style="background-image:url(images/' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
+            var friendsNamesCombined = '<div style="background-image:url(images/' + fields["friendsSpecies1"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName1"];
+            for (var idx = 2; idx < fields["friendsCount"]; idx++)
+            {
+                friendsNamesCombined += " and " + '<div style="background-image:url(images/' + fields["friendsSpecies" + idx] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/>' + fields["friendsName" + idx];
+            }
+            allNamesCombined += " and " + friendsNamesCombined + "</div>";
+            pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
         }
-        allNamesCombined += " and " + friendsNamesCombined + "</div>";
-        pages.push('<div id="mainBody" class="newSegment"><div class="friendNames">' + friendsNamesCombined + ' </div>came by the  ' + fields["home"] + ' to see if ' + mainCharPronoun + ' could play. What adventure would they go on today?</div>');
+        else
+        {
+         pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
+        }
+      
+        // Soar to the clouds.
+        pages.push('<div id="mainBody" class="newSegment">Fly up to the clouds where the angels live, way up in the sky soared ' + allNamesCombined + '.</div>');
+        
+        // Swim in the sea.
+        pages.push('<div id="mainBody" class="newSegment">Dive down into the depths of the sea to say hello to a friendly shark from school. Swim down, ' + allNamesCombined + '</div>');
+        
+        // Jump to space.
+        pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' jumped so high they jumped into space and flew past the moon.</div>');
+        
+        
+        // Caught by an eagle.
+        pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' fell back down and were caught by a giant eagle with big eyes and a sharp beak.</div>');
+        
+        // Explore a cave.
+        pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' hike through the forest and find a cave. It is so dark that they run back out. They run home fast to tell about the big adventure.</div>');
+        
+        // Last page.
+        pages.push('<div id="mainBody" class="newSegment">Good night, ' + allNamesCombined + "! It is time to sleep.</div></div></div>");
     }
-    else
-    {
-     pages.push('<div id="mainBody" class="newSegment">No one was around, but that was okay. <div style="background-image:url(images/' + fields["friendsSpecies0"] +  '.png); background-repeat:no-repeat; background-position:center; height:50px; width:60px; display:inline-block; margin:3px;"/> <div class="friendNames">' + fields["friendsName0"] + '</div> had a great imagination. What kind of adventure would ' + mainCharPronoun + ' go on today?</div>');
-    }
-  
-    // Soar to the clouds.
-    pages.push('<div id="mainBody" class="newSegment">Fly up to the clouds where the angels live, way up in the sky soared ' + allNamesCombined + '.</div>');
-    
-    // Swim in the sea.
-    pages.push('<div id="mainBody" class="newSegment">Dive down into the depths of the sea to say hello to a friendly shark from school. Swim down, ' + allNamesCombined + '</div>');
-    
-    // Jump to space.
-    pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' jump so high they jumped into space and flew past the moon.</div>');
-    
-    
-    // Caught by an eagle.
-    pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' fell back down and were caught by a giant eagle with big eyes and a sharp beak.</div>');
-    
-    // Explore a cave.
-    pages.push('<div id="mainBody" class="newSegment">' + allNamesCombined + ' hike through the forest and find a cave. It is so dark that they run back out. They run home fast to tell about the big adventure.</div>');
-    
-    // Last page.
-    pages.push('<div id="mainBody" class="newSegment">Good night, ' + allNamesCombined + "! It is time to sleep.</div></div></div>");
-    
     // Render the first page.
     jQuery("#results").html(pages[0]);
+    jQuery("#prevPage").hide();
 }
 
 // Get the data we stored in cookies to use in the story.
@@ -273,6 +279,7 @@ function nextPage()
     clearCanvas();
     
     jQuery("#titleRegion").hide();
+    jQuery("#prevPage").show();
     if (pageReading < pages.length - 1)
     {
         jQuery("#results").html(pages[pageReading]);
@@ -280,6 +287,23 @@ function nextPage()
     else
     {
         lastPage();
+    }
+}
+
+// Each page that is not the first or the last.
+function prevPage()
+{
+    pageReading--;
+    clearCanvas();
+    
+    jQuery("#titleRegion").hide();
+    if (pageReading > 0)
+    {
+        jQuery("#results").html(pages[pageReading]);
+    }
+    else
+    {
+        firstPage();
     }
 }
 
@@ -351,7 +375,7 @@ function setUpDrawingArea()
 
 function clearCanvas()
 {
-    ctx.clearRect(0, 0, 900, 300);
+    ctx.clearRect(0, 0, 1200, 300);
 }
 
 function setCursor(canvas, name) {
@@ -371,7 +395,7 @@ function setCursor(canvas, name) {
 function setupInputHandlers() {
 
     handlers.onMouseDown = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
+        y -= $("#drawAdventureContainer").offset().top - $(window).scrollTop();
         leftMouseDown = true;
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
@@ -391,7 +415,7 @@ function setupInputHandlers() {
     }
 
     handlers.onMouseMove = function (x, y) {
-        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
+        y -= $("#drawAdventureContainer").offset().top - $(window).scrollTop();
         if (leftMouseDown == true) {
             ctx.fillStyle = penColor;
             ctx.strokeStyle = penColor;
@@ -415,7 +439,7 @@ function setupInputHandlers() {
     }
 
     handlers.onTouchStart = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
+        y -= $("#drawAdventureContainer").offset().top - $(window).scrollTop();
         leftMouseDown = true;
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
@@ -435,7 +459,7 @@ function setupInputHandlers() {
     }
 
     handlers.onTouchMove = function (x, y) {
-        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
+        y -= $("#drawAdventureContainer").offset().top - $(window).scrollTop();
         if (leftMouseDown == true) {
             ctx.fillStyle = penColor;
             ctx.strokeStyle = penColor;
@@ -454,9 +478,9 @@ function setupInputHandlers() {
         }
     }
 
-
+/*
     handlers.onGestureStart = function (button, x, y, el) {
-        y -= $("#drawAdventureContainer").offset().top - 10; x -= 10;
+        y -= $("#drawAdventureContainer").offset().top - $(window).scrollTop();
         setCursor(mainCanvas, "hand");
         lastMouseX = x;
         lastMouseY = y;
@@ -473,7 +497,7 @@ function setupInputHandlers() {
     handlers.onGestureChange = function (delta, x, y, el) {
 
     }
-
+*/
 
     handlers.onKeyDown = function (keyCode) {
          switch (keyCode) {
@@ -503,6 +527,5 @@ function setupInputHandlers() {
         }
         return false;
     }
-
     setupInput(mainCanvas, handlers);
 }
