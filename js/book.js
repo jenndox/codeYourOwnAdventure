@@ -191,6 +191,7 @@ function nameBlur( e ) {
 // ---- Pertains to book.html code -----
 
 var haveSetUpPages = false;
+var imageData = new Array();
 
 // Set up and render the first page.
 function firstPage()
@@ -310,7 +311,15 @@ function prevPage()
 // The last page.
 function lastPage()
 {
-    jQuery("#results").html(pages[pageReading] + '<div id="theEnd" class="newSegment">The End.</div>');
+    var htmlToUpdate = pages[pageReading]
+    for (var idx = 0; idx < imageData.length; idx++)
+    {
+        htmlToUpdate += '<div class="finalImages>"<img src=' + imageData[idx] + '/></div>';
+    }
+    
+    htmlToUpdate += '<div id="theEnd" class="newSegment">The End.</div>';
+    
+    jQuery("#results").html(htmlToUpdate);
     
     jQuery("#nextPage").hide();
     jQuery("#startOver").show();
@@ -322,12 +331,7 @@ function startOver()
 {
     pageReading = 0;
     
-    // Render the first page.
-    jQuery("#results").html(pages[0]);
-    
-    jQuery("#nextPage").show();
-    jQuery("#startOver").hide();
-    jQuery("#makeANewBook").hide();
+    firstPage();
 }
 
 function makeANewBook()
@@ -375,6 +379,9 @@ function setUpDrawingArea()
 
 function clearCanvas()
 {
+    // save it first!
+    var dataURL = mainCanvas.toDataURL();
+    imageData.push(dataURL);
     ctx.clearRect(0, 0, 1200, 300);
 }
 
